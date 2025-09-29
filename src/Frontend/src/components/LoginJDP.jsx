@@ -22,8 +22,7 @@ export const LoginJDP = () => {
         let path = desencriptar[1];
         dispatch(loginJdp(usuario)).then(response => {
             if (response === 0) {
-                //window.location.href = `http://10.100.35.47:3001/#/${path}`;
-                //window.location.href = `http://10.100.1.44:3001/#/${path}`;
+
                 window.location.href = `${redirectUrl}/#/${path}`;        
             }
         })
