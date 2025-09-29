@@ -78,9 +78,9 @@ Antes de comenzar, asegúrate de tener lo siguiente instalado:
 ### Backend (Laravel)
 
 1. Clona este repositorio:
-   git clone https://github.com/jgomezbau/Agenda-de-Turnos-JDP.git
+   git clone https://github.com/jgomezbau/Agenda-Turnos-Servicios.git
 2. Dirígete al directorio del proyecto:
-	cd Agenda-de-Turnos-JDP/src
+	cd Agenda-de-Turnos-Servicios/src
 3. Instala las dependencias de PHP:
 	composer install
 4. Copia el archivo .env.example y renómbralo a .env:
