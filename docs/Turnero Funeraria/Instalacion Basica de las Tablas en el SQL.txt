@@ -1,0 +1,16 @@
+Para instalar por primera vez en el SQL.
+1. Generar un usuario en SQL de nombre PQ u luego hay que colocar este usuario y la calve en el archivo ".env" del backend.
+2. Una vez en el SQL ejecutar los siguientes Queries.
+	a. (JDP_TUR_ - Borra Turnero Completo - Tablas y SP - NOMENCLATURA JARDIN DEL PILAR.sql) -- Elimina todas las Tablas y SP de la base, por las dudas.
+	b. (1. JDP_TUR_ Este query Genera Tablas y Store Procedures del Turnero con Datos Iniciales con nomeclatura  Jardin.sql) Genera toda la estructura necesaria.
+	c. (3. Creacion de Tablas dentro del Diccionario.sql) Genera toda la estructura necesaria dentro del Diccionario.
+	d. (4. Creacion de Triggers en Tablas de Tango y CRM) Modifica lo necesario en las Tablas de CRM Y Tango.	
+
+El Turnero ya esta listo con la informacion basica, de aca en mas es empezar a carga usuario, roles, etc.
+1. Para generar los vinculos de los usuarios con las Unidades de negocio, sectores y tipo de rol hay que ejecutar:
+	a. 2. Query Vincula Usuarios con Unidades de Negocio - Asigna Roles Iniciador o Autorizador - Asigna Sectores a Usuarios.sql
+	b. Habilitar la lista de usuarios en Tango Blue para poder acceder.
+
+A partir de aca, ya podrian trabajar entrando en la web TAngo Blu y de ahi clic en Turnero.
+Tiene que entrar dar la posibilidad de que el usuario elija donde quiere realizar el turno.
+

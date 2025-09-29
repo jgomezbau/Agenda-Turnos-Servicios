@@ -1,0 +1,62 @@
+###########################################################################
+####   COMPILACION Y COMANDOS BASICOS DE VISUAL STUDIO CODE PARA EL TURNERO
+###########################################################################
+
+
+#Comando a ejecutar para generar el BUILD en visual code del frontend
+#el resultado es lo que se copia a produccion o desarrollo para testeo
+
+npm run build
+
+#Comando a ejecutar para iniciar el frontend
+npm start
+
+
+## Ejecutar Laravel como localhost
+php artisan serve --port=8001
+
+##Limpiar el cache de Laravel
+php artisan config:clear
+php artisan cache:clear
+php artisan view:clear
+php artisan route:clear
+
+##Cuando migres el Backend
+## Acordate que hay que cambiar las variales de entorno
+## el archivo es el .env
+## Ademas de cambiar las IP y el puerto, fijate que hay una variable 
+## para el debug y otra para poner si estas local en desarrollo o produccion
+
+##Para Crear un nuevo Branch
+##desde el directorio del proyecto
+
+git checkout -b nombre-del-branch
+
+#Esto te crea una nueva rama y te cambia a ella. 
+#Podés hacer todos los cambios que quieras, y si después necesitás volver a la 
+#rama principal (por ejemplo, main), simplemente hacés:
+
+git checkout main
+
+##Fusionar los cambios al branch principal
+
+#Una vez que estés seguro de que los cambios están bien, 
+#podés fusionar el branch de trabajo con el principal:
+
+git checkout main
+git merge nombre-del-branch
+
+## Etiquetar versiones (tags)
+#Una vez que completes una versión importante de tu proyecto, 
+#podés agregar un tag. Esto es útil para identificar versiones 
+#estables (por ejemplo, v1.0, v2.0).
+
+#Para crear un tag:
+
+git tag -a v1.0 -m "Mensaje descriptivo de la versión"
+
+#Esto marca esa versión del código como un release importante. 
+#Después podés hacer un push de los tags a GitHub:
+
+git push origin --tags
+

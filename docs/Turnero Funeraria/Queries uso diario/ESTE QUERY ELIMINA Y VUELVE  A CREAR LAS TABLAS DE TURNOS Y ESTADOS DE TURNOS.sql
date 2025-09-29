@@ -1,0 +1,156 @@
+-- ESTE QUERY ELIMINA Y VUELVE  A CREAR LAS TABLAS DE TURNOS Y ESTADOS DE TURNOS
+-- CARGA LOS DATOS DE JBAU EN TODOS LOS CAMPOS PARA LOS ENVIOS DE WHATSAPP Y CORREOS
+-- trae los datos de produccion
+-- correr esto para limpiar la base de turnos y traer una de produccion
+
+USE [JDP_DESARROLLO]
+
+
+DELETE [JDP_TUR_ESTADO_TURNO]
+DELETE [dbo].[JDP_TUR_TURNOS]
+
+
+ALTER TABLE [dbo].[JDP_TUR_TURNOS]
+DROP CONSTRAINT [FK_JDP_TUR_TURNOS_JDP_TUR_SECTOR_SUCURSAL]
+ALTER TABLE [dbo].[JDP_TUR_TURNOS]
+DROP CONSTRAINT [DF_JDP_TUR_TURNOS_id_version]
+ALTER TABLE [dbo].[JDP_TUR_TURNOS]
+DROP CONSTRAINT [DF_JDP_TUR_TURNOS_id_presupuesto]
+
+DROP TABLE [dbo].[JDP_TUR_TURNOS]
+DROP TABLE [JDP_TUR_ESTADO_TURNO]
+GO
+
+/****** Object:  Table [dbo].[JDP_TUR_TURNOS]    Script Date: 16/6/2023 16:36:21 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[JDP_TUR_TURNOS](
+	[id_turnos] [INT] IDENTITY(1,1) NOT NULL,
+	[id_un_servicio] [INT] NULL,
+	[fecha_hora_alta] [DATETIME] NULL,
+	[fecha_hora_desde] [DATETIME] NULL,
+	[fecha_hora_hasta] [DATETIME] NULL,
+	[vigencia_turno] [TIME](7) NULL,
+	[id_sectorSolicitante] [INT] NULL,
+	[id_cliente] [INT] NULL,
+	[id_fallecido] [INT] NULL,
+	[id_presupuesto] [INT] NOT NULL,
+	[id_version] [INT] NOT NULL,
+	[aprobado_destino] [BIT] NULL,
+	[observaciones] [VARCHAR](MAX) NULL,
+ CONSTRAINT [PK_JDP_TUR_TURNOS] PRIMARY KEY CLUSTERED 
+(
+	[id_turnos] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[JDP_TUR_TURNOS] ADD  CONSTRAINT [DF_JDP_TUR_TURNOS_id_presupuesto]  DEFAULT ((-1)) FOR [id_presupuesto]
+GO
+
+ALTER TABLE [dbo].[JDP_TUR_TURNOS] ADD  CONSTRAINT [DF_JDP_TUR_TURNOS_id_version]  DEFAULT ((-1)) FOR [id_version]
+GO
+
+ALTER TABLE [dbo].[JDP_TUR_TURNOS]  WITH CHECK ADD  CONSTRAINT [FK_JDP_TUR_TURNOS_JDP_TUR_SECTOR_SUCURSAL] FOREIGN KEY([id_sectorSolicitante])
+REFERENCES [dbo].[JDP_TUR_SECTOR_SUCURSAL] ([id_sector])
+GO
+
+ALTER TABLE [dbo].[JDP_TUR_TURNOS] CHECK CONSTRAINT [FK_JDP_TUR_TURNOS_JDP_TUR_SECTOR_SUCURSAL]
+GO
+
+
+GO
+
+/****** Object:  Table [dbo].[JDP_TUR_ESTADO_TURNO]    Script Date: 16/6/2023 16:36:09 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[JDP_TUR_ESTADO_TURNO](
+	[id_estado_turno] [INT] IDENTITY(1,1) NOT NULL,
+	[id_turno] [INT] NULL,
+	[id_estado] [INT] NULL,
+	[fecha_hora] [DATETIME] NULL,
+	[usuario] [VARCHAR](50) NULL,
+ CONSTRAINT [PK_JDP_TUR_ESTADO_TURNO] PRIMARY KEY CLUSTERED 
+(
+	[id_estado_turno] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[JDP_TUR_ESTADO_TURNO]  WITH CHECK ADD  CONSTRAINT [FK_JDP_TUR_ESTADO_TURNO_JDP_TUR_TIPO_ESTADOS_TURNO] FOREIGN KEY([id_estado])
+REFERENCES [dbo].[JDP_TUR_TIPO_ESTADOS_TURNO] ([id_tipo_estados_turno])
+GO
+
+ALTER TABLE [dbo].[JDP_TUR_ESTADO_TURNO] CHECK CONSTRAINT [FK_JDP_TUR_ESTADO_TURNO_JDP_TUR_TIPO_ESTADOS_TURNO]
+GO
+
+ALTER TABLE [dbo].[JDP_TUR_ESTADO_TURNO]  WITH CHECK ADD  CONSTRAINT [FK_JDP_TUR_ESTADO_TURNO_JDP_TUR_TURNOS] FOREIGN KEY([id_turno])
+REFERENCES [dbo].[JDP_TUR_TURNOS] ([id_turnos])
+GO
+
+ALTER TABLE [dbo].[JDP_TUR_ESTADO_TURNO] CHECK CONSTRAINT [FK_JDP_TUR_ESTADO_TURNO_JDP_TUR_TURNOS]
+GO
+
+SET IDENTITY_INSERT [dbo].[JDP_TUR_TURNOS] ON 
+GO
+INSERT INTO dbo.JDP_TUR_TURNOS
+SELECT
+	id_turnos,
+    id_un_servicio,
+    fecha_hora_alta,
+    fecha_hora_desde,
+    fecha_hora_hasta,
+    vigencia_turno,
+    id_sectorSolicitante,
+    id_cliente,
+    id_fallecido,
+    id_presupuesto,
+    id_version,
+    aprobado_destino,
+    observaciones
+FROM
+[10.100.1.4\AXSQLSERVER].jdp.dbo.JDP_TUR_TURNOS
+GO
+SET IDENTITY_INSERT [dbo].JDP_TUR_TURNOS OFF
+GO
+
+INSERT INTO dbo.JDP_TUR_ESTADO_TURNO
+SELECT 
+    id_turno,
+    id_estado,
+    fecha_hora,
+    usuario
+FROM
+[10.100.1.4\AXSQLSERVER].jdp.dbo.JDP_TUR_ESTADO_TURNO
+
+
+UPDATE Diccionario_048006_003.dbo.users SET email =LOWER(name)+'@jardindelpilar.com.ar'
+UPDATE dbo.JDP_TUR_SUCURSAL SET email ='jbau@jardindelpilar.com.ar', WhatsApp ='5491156618093'
+UPDATE dbo.JDP_TUR_SECTOR_SUCURSAL SET email ='jbau@jardindelpilar.com.ar', WhatsApp ='5491156618093'
+
+
+UPDATE dbo.JDP_TUR_SECTOR_SUCURSAL SET email =ss.email, WhatsApp =ss.WhatsApp
+FROM
+JDP_TUR_SECTOR_SUCURSAL SS1
+LEFT JOIN [10.100.35.4\AXSQLSERVER].JDP_DESARROLLO.dbo.JDP_TUR_SECTOR_SUCURSAL SS
+ON ss.id = ss1.id
+
+
+WHERE ss.id_sucursal = id_sucursal
+
+UPDATE dbo.JDP_TUR_SUCURSAL SET email =ss.email, WhatsApp =ss.WhatsApp
+FROM
+JDP_TUR_SUCURSAL SS1 LEFT JOIN
+[10.100.35.4\AXSQLSERVER].JDP_DESARROLLO.dbo.JDP_TUR_SUCURSAL SS
+ON ss.id = ss1.id
+
+select * FROM JDP_TUR_SUCURSAL
+select * FROM [10.100.35.4\AXSQLSERVER].JDP_DESARROLLO.dbo.JDP_TUR_SUCURSAL SS

@@ -1,0 +1,9 @@
+#treeview{
+    display: inline-block;
+    width: 300px;
+    margin: 10px;
+    color: aliceblue;
+}
+#treeview,.dx-item-content,.dx-treeview-item-content:hover{
+   
+}
