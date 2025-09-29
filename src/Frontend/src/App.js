@@ -56,7 +56,7 @@ function App() {
           const licenciaEncriptada = response.data?.licencia;
       
           // Usar una llave que sea consistente y segura para desencriptar
-          const key = 'h6B3hBvNd1Ff2FZLM+ssX0gC4L+8XJ9R5tT0rL6tIsg'; 
+          const key = ''; 
           //console.log('Licencia encriptada:', licenciaEncriptada);
       
           const licenciaValida = validateLicenseFile(key, licenciaEncriptada);
