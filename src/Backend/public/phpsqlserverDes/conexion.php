@@ -3,10 +3,10 @@
 class Cconexion{
     public static function ConexionBD(){
 
-        $host='10.100.35.4\AXSQLSERVER';
-        $BBDD='JDP_DESARROLLO';
-        $username='PQ';
-        $contraseña='Qwerty2023!';
+        $host='TU-IP-ACA';
+        $BBDD='';
+        $username='';
+        $contraseña='';
         $puerto=61046;
         try{
             $conn= new PDO("sqlsrv:Server=$host,$puerto;Database=$BBDD;TrustServerCertificate=true",$username,$contraseña);
